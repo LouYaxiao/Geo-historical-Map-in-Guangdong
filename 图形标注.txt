@@ -1,0 +1,29 @@
+import geopandas as gpd
+import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
+
+plt.rc('font', family='SimHei', weight='bold')
+
+# 指定字体
+myfont = fm.FontProperties(fname='C:\Windows\Fonts\msyh.ttc')
+
+# 设置标题
+plt.title('标题', fontproperties=myfont)
+
+# 读取csv文件中的数据
+data = gpd.read_file('D:\Python\清代广东进士信息.csv', encoding='utf-8', errors='ignore')
+data = data.rename(columns={'姓名': 'name', '省': 'province', '府': 'fu', '州县': 'zhouxian', '科次': 'keci'})
+
+# 读取png格式的地图
+map = plt.imread('D:\Python\中国历史地图集.png')
+
+# 绘制地图
+fig, ax = plt.subplots(figsize=(10, 10))
+ax.imshow(map, extent=[-180, 180, -90, 90])
+
+# 标注数据
+ax.scatter(data['fu'], data['zhouxian'], s=10, c='red', alpha=0.5)
+
+# 显示图形
+plt.savefig('D:\Python\my_figure.png')
+plt.show()
